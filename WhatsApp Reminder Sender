@@ -1,0 +1,27 @@
+from twilio.rest import Client
+from datetime import datetime, timedelta
+
+# Twilio credentials
+account_sid = 'your_account_sid'
+auth_token = 'your_auth_token' # generated on your twilio account
+twilio_phone_number = 'your_twilio_phone_number' # generated on your twilio account
+your_phone_number = 'your_whatsapp_number'  # Include country code, e.g., +919999988888
+
+# Create a Twilio client
+client = Client(account_sid, auth_token)
+
+# Calculate the reminder time (e.g., 10 minutes from now)
+reminder_time = datetime.now() + timedelta(minutes=10)
+
+# Format the reminder message
+reminder_message = "Don't forget your important task!"
+
+# Send the reminder message
+message = client.messages.create(
+    to=f"whatsapp:{your_phone_number}",
+    from_=f"whatsapp:{twilio_phone_number}",
+    body=reminder_message,
+    date_sent=reminder_time
+)
+
+print(f"Reminder message sent: {message.sid}")
